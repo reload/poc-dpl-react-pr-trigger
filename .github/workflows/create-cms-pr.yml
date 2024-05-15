@@ -23,19 +23,17 @@ jobs:
           echo "RELEASE_BRANCH=$RELEASE_BRANCH" >> $GITHUB_ENV
           echo "RELEASE_DOWNLOAD_URL=$RELEASE_DOWNLOAD_URL" >> $GITHUB_ENV
 
-  # invoke-external-pr-workflow:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Debug
-  #     run: echo ${{ toJson(github.event.workflow_run) }}
-  #   - name: Debug II
-  #     run: echo ${{ toJson(github.event.workflow_run.head_repository ) }}
-  #   - name: Deploy Stage
-  #     uses: fjogeleit/http-request-action@v1
-  #     with:
-  #       url: 'https://api.github.com/repos/reload/poc-dpl-cms-pr-trigger/dispatches'
-  #       method: 'POST'
-  #       customHeaders: '{"Accept": "application/vnd.github+json", "Authorization": "Bearer ${{ secrets.CMS_PR_CREATION_PAT }}" }'
-  #       data: '{"event_type":"create_pr","client_payload":{"branch":"${{ env.BRANCH_NAME }}", "build_url":"https://github.com/danskernesdigitalebibliotek/dpl-react/releases/download/branch-user-registration-form-v2/dist-user-registration-form-v2.zip"}}'
-  #     env:
-  #       BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+  invoke-external-pr-workflow:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Debug
+      run: echo ${{ toJson(github.event.workflow_run) }}
+    - name: Debug II
+      run: echo ${{ toJson(github.event.workflow_run.head_repository ) }}
+    - name: Deploy Stage
+      uses: fjogeleit/http-request-action@v1
+      with:
+        url: 'https://api.github.com/repos/reload/poc-dpl-cms-pr-trigger/dispatches'
+        method: 'POST'
+        customHeaders: '{"Accept": "application/vnd.github+json", "Authorization": "Bearer ${{ secrets.CMS_PR_CREATION_PAT }}" }'
+        data: '{"event_type":"create_pr","client_payload":{"branch":"${{ env.RELEASE_BRANCH }}", "build_url":"${{ env.RELEASE_DOWNLOAD_URL }}"}}'
