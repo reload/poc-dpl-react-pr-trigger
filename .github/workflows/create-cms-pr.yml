@@ -18,7 +18,11 @@ jobs:
         run: cat release-info.json
       - name: Set env variables
         run: |
-         jq .release_branch release-info.json
+          # INFO_JSON=$(cat release-info.json)
+          RELEASE_BRANCH=$(cat release-info.json | jq -r '.release_branch')
+          echo $RELEASE_BRANCH
+          # echo "INFO_JSON=$INFO_JSON" >> $GITHUB_ENV
+          # RELEASE_BRANCH=${{ fromJson($INFO).release_branch }}
           # RELEASE_BRANCH=$(jq .release_branch release-info.json)
           # RELEASE_DOWNLOAD_URL=$(jq .release_download_url release-info.json)
           # echo "RELEASE_BRANCH=$RELEASE_BRANCH" >> $GITHUB_ENV
