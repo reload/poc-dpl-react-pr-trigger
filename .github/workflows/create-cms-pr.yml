@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Debug
-      run: echo ${{ github.event.workflow_run.artifacts_url }}
+      run: echo ${{ toJson(github.event.workflow_run.event) }}
     - name: Deploy Stage
       uses: fjogeleit/http-request-action@v1
       with:
