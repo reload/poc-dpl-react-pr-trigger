@@ -30,58 +30,70 @@ jobs:
           echo "DIST_FILENAME=dist-${RELEASE_BRANCH_SLUGGED}.zip" >> "$GITHUB_ENV"
 
       # Checkout the HEAD of the PR branch to get the latest commit message.
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-      - name: Get release description
+      # - uses: actions/checkout@v4
+      #   with:
+      #     ref: ${{ github.event.pull_request.head.sha }}
+      # - name: Get release description
+      #   run: |
+      #     echo "RELEASE_DESCRIPTION=$(git show -s --format=%s)" >> "$GITHUB_ENV"
+
+      # - uses: actions/checkout@v4
+      # - name: Setup Node
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version-file: '.nvmrc'
+      #     cache: 'yarn'
+      #     registry-url: 'https://npm.pkg.github.com'
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Install Dependencies
+      #   run: yarn install --frozen-lockfile
+
+      # - name: Build artifacts
+      #   run: yarn build
+      #   env:
+      #     VERSION_FILE_NAME: ${{ github.repository }}
+      #     VERSION_FILE_VERSION: ${{ env.BUILD_VERSION }}
+
+      # - name: Zip project
+      #   run: |
+      #     zip -r -j ${{ env.DIST_FILENAME }} dist/
+
+
+      # - name: Delete existing releases
+      #   uses: dev-drprasad/delete-tag-and-release@v1.1
+      #   with:
+      #     tag_name: ${{ env.TAG_NAME }}
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+
+
+      # - name: Create or update tag
+      #   uses: EndBug/latest-tag@v1.6.2
+      #   with:
+      #     ref: ${{ env.TAG_NAME }}
+
+      # - name: Create release
+      #   id: create-release
+      #   uses: softprops/action-gh-release@v2
+      #   with:
+      #     target_commitish: ${{ env.RELEASE_SHA }}
+      #     tag_name: ${{ env.TAG_NAME }}
+      #     body: ${{ env.RELEASE_DESCRIPTION }}
+      #     files: ${{ env.DIST_FILENAME }}
+
+      - name: Write release information in artifact file
         run: |
-          echo "RELEASE_DESCRIPTION=$(git show -s --format=%s)" >> "$GITHUB_ENV"
+            printf '{
+              "release_branch": ${{ env.RELEASE_BRANCH }},
+              "release_download_url": "https://github.com/reload/poc-dpl-react-pr-trigger/releases/download/${{ env.RELEASE_BRANCH }}/${{ env.DIST_FILENAME }}",
+            }' >> release-info.json
 
-      - uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/upload-artifact@v3
         with:
-          node-version-file: '.nvmrc'
-          cache: 'yarn'
-          registry-url: 'https://npm.pkg.github.com'
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: release-info.json
+          path: ./
 
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Build artifacts
-        run: yarn build
-        env:
-          VERSION_FILE_NAME: ${{ github.repository }}
-          VERSION_FILE_VERSION: ${{ env.BUILD_VERSION }}
-
-      - name: Zip project
-        run: |
-          zip -r -j ${{ env.DIST_FILENAME }} dist/
-
-
-      - name: Delete existing releases
-        uses: dev-drprasad/delete-tag-and-release@v1.1
-        with:
-          tag_name: ${{ env.TAG_NAME }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
-
-      - name: Create or update tag
-        uses: EndBug/latest-tag@v1.6.2
-        with:
-          ref: ${{ env.TAG_NAME }}
-
-      - name: Create release
-        id: create-release
-        uses: softprops/action-gh-release@v2
-        with:
-          target_commitish: ${{ env.RELEASE_SHA }}
-          tag_name: ${{ env.TAG_NAME }}
-          body: ${{ env.RELEASE_DESCRIPTION }}
-          files: ${{ env.DIST_FILENAME }}
-
-      - name: Adding summary
-        run: |
-          echo "Release created 🚀😎 at: ${{ steps.create-release.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+      # - name: Adding summary
+      #   run: |
+      #     echo "Release created 🚀😎 at: ${{ steps.create-release.outputs.url }}" >> $GITHUB_STEP_SUMMARY
