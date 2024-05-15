@@ -6,23 +6,6 @@ on:
       - completed
 
 jobs:
-  debugging:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: release-info.json
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: ${{ github.event.workflow_run.id }}
-      - name: Display structure of downloaded files
-        run: cat release-info.json
-      - name: Set env variables
-        run: |
-          RELEASE_BRANCH=$(jq -r '.release_branch' release-info.json)
-          RELEASE_DOWNLOAD_URL=$(jq -r '.release_download_url' release-info.json)
-          echo "RELEASE_BRANCH=$RELEASE_BRANCH" >> $GITHUB_ENV
-          echo "RELEASE_DOWNLOAD_URL=$RELEASE_DOWNLOAD_URL" >> $GITHUB_ENV
-
   invoke-external-pr-workflow:
     runs-on: ubuntu-latest
     steps:
@@ -31,8 +14,6 @@ jobs:
           name: release-info.json
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ github.event.workflow_run.id }}
-      - name: Display structure of downloaded files
-        run: cat release-info.json
       - name: Set env variables
         run: |
           RELEASE_BRANCH=$(jq -r '.release_branch' release-info.json)
