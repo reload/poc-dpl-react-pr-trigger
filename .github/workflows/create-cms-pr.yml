@@ -7,7 +7,7 @@ name: Create CMS PR
 on:
   push:
     branches:
-      - develop
+      - miktest-1723
 
 jobs:
   invoke-external-pr-workflow:
