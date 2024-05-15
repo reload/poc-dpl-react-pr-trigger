@@ -18,7 +18,7 @@ jobs:
         run: cat release-info.json
       - name: Set env variables
         run: |
-          RELEASE_BRANCH=$(cat release-info.json | jq -r '.release_branch')
+          RELEASE_BRANCH=$(jq -r '.release_branch' release-info.json)
           echo $RELEASE_BRANCH
 
   # invoke-external-pr-workflow:
