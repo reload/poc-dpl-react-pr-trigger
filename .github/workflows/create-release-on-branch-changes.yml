@@ -85,7 +85,7 @@ jobs:
       - name: Write release information in artifact file
         run: |
             printf '{
-              "release_branch": ${{ env.RELEASE_BRANCH }},
+              "release_branch": "${{ env.RELEASE_BRANCH }}",
               "release_download_url": "https://github.com/reload/poc-dpl-react-pr-trigger/releases/download/${{ env.TAG_NAME }}/${{ env.DIST_FILENAME }}",
             }' >> release-info.json
 
