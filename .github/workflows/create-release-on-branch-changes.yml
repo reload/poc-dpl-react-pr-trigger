@@ -86,7 +86,7 @@ jobs:
         run: |
             printf '{
               "release_branch": ${{ env.RELEASE_BRANCH }},
-              "release_download_url": "https://github.com/reload/poc-dpl-react-pr-trigger/releases/download/${{ env.RELEASE_BRANCH }}/${{ env.DIST_FILENAME }}",
+              "release_download_url": "https://github.com/reload/poc-dpl-react-pr-trigger/releases/download/${{ env.TAG_NAME }}/${{ env.DIST_FILENAME }}",
             }' >> release-info.json
 
       - uses: actions/upload-artifact@v3
