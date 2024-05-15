@@ -1,18 +1,16 @@
 name: Create CMS PR
-# on:
-#   workflow_run:
-#     workflows: ["Create release on branch changes"]
-#     types:
-#       - completed
 on:
-  push:
-    branches:
-      - miktest-1723
+  workflow_run:
+    workflows: ["Create release on branch changes"]
+    types:
+      - completed
 
 jobs:
   invoke-external-pr-workflow:
     runs-on: ubuntu-latest
     steps:
+    - name: Debug
+      run: echo ${{ github.event.workflow_run.artifacts_url }}
     - name: Deploy Stage
       uses: fjogeleit/http-request-action@v1
       with:
