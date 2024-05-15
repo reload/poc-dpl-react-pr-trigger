@@ -11,6 +11,8 @@ jobs:
     steps:
     - name: Debug
       run: echo ${{ toJson(github.event.workflow_run.event) }}
+    - name: Debug II
+      run: echo ${{ toJson(github.event.workflow_run.head_repository ) }}
     - name: Deploy Stage
       uses: fjogeleit/http-request-action@v1
       with:
