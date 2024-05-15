@@ -18,10 +18,11 @@ jobs:
         run: cat release-info.json
       - name: Set env variables
         run: |
-          RELEASE_BRANCH=$(jq .release_branch release-info.json)
-          RELEASE_DOWNLOAD_URL=$(jq .release_download_url release-info.json)
-          echo "RELEASE_BRANCH=$RELEASE_BRANCH" >> $GITHUB_ENV
-          echo "RELEASE_DOWNLOAD_URL=$RELEASE_DOWNLOAD_URL" >> $GITHUB_ENV
+         jq .release_branch release-info.json
+          # RELEASE_BRANCH=$(jq .release_branch release-info.json)
+          # RELEASE_DOWNLOAD_URL=$(jq .release_download_url release-info.json)
+          # echo "RELEASE_BRANCH=$RELEASE_BRANCH" >> $GITHUB_ENV
+          # echo "RELEASE_DOWNLOAD_URL=$RELEASE_DOWNLOAD_URL" >> $GITHUB_ENV
 
   # invoke-external-pr-workflow:
   #   runs-on: ubuntu-latest
