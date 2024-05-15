@@ -1,9 +1,13 @@
 name: Create CMS PR
+# on:
+#   workflow_run:
+#     workflows: ["Create release on branch changes"]
+#     types:
+#       - completed
 on:
-  workflow_run:
-    workflows: ["Create release on branch changes"]
-    types:
-      - completed
+  push:
+    branches:
+      - develop
 
 jobs:
   github-pages:
