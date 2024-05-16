@@ -26,4 +26,12 @@ jobs:
           url: 'https://api.github.com/repos/reload/poc-dpl-cms-pr-trigger/dispatches'
           method: 'POST'
           customHeaders: '{"Accept": "application/vnd.github+json", "Authorization": "Bearer ${{ secrets.CMS_PR_CREATION_PAT }}" }'
-          data: '{"event_type":"create_pr","client_payload":{"branch":"${{ env.RELEASE_BRANCH }}", "build_url":"${{ env.RELEASE_DOWNLOAD_URL }}"}}'
+          data: |
+            {
+              "event_type": "create_pr",
+              "client_payload": {
+                "branch": "${{ env.RELEASE_BRANCH }}",
+                "build_url": "${{ env.RELEASE_DOWNLOAD_URL }}",
+                package: "danskernesdigitalebibliotek/dpl-react"
+              }
+            }
