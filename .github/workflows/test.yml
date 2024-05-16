@@ -1,0 +1,17 @@
+name: Test
+
+on:
+  push:
+
+jobs:
+  build:
+    name: Build artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print inputs
+        run: |
+          echo 'Inputs: ${{ toJson(vars) }}'
+        env:
+          JOHN: ' Ja John!'
+          JANE: ' Ja Jane!'
+          JIM: ' Ja Jim!'
