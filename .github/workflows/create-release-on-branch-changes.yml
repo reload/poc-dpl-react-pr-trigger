@@ -86,6 +86,7 @@ jobs:
         run: |
             printf '{
               "release_branch": "${{ env.RELEASE_BRANCH }}",
+              "dependency_package": "danskernesdigitalebibliotek/dpl-react",
               "release_download_url": "https://github.com/reload/poc-dpl-react-pr-trigger/releases/download/${{ env.TAG_NAME }}/${{ env.DIST_FILENAME }}"
             }' >> release-info.json
 
