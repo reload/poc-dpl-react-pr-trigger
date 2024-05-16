@@ -18,8 +18,10 @@ jobs:
         run: |
           RELEASE_BRANCH=$(jq -r '.release_branch' release-info.json)
           RELEASE_DOWNLOAD_URL=$(jq -r '.release_download_url' release-info.json)
+          DEPENDENCY_PACKAGE=$(jq -r '.dependency_package' release-info.json)
           echo "RELEASE_BRANCH=$RELEASE_BRANCH" >> $GITHUB_ENV
           echo "RELEASE_DOWNLOAD_URL=$RELEASE_DOWNLOAD_URL" >> $GITHUB_ENV
+          echo "DEPENDENCY_PACKAGE=$DEPENDENCY_PACKAGE" >> $GITHUB_ENV
       - name: Invoke external PR workflow
         uses: fjogeleit/http-request-action@v1
         with:
@@ -32,6 +34,6 @@ jobs:
               "client_payload": {
                 "branch": "${{ env.RELEASE_BRANCH }}",
                 "build_url": "${{ env.RELEASE_DOWNLOAD_URL }}",
-                package: "danskernesdigitalebibliotek/dpl-react"
+                dependency_package: "${{ env.DEPENDENCY_PACKAGE }}"
               }
             }
