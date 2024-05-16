@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Print inputs
         run: |
-          echo 'Inputs: ${{ toJson(vars) }}'
+          echo 'Inputs: ${{ toJson(github) }}'
         env:
           JOHN: ' Ja John!'
           JANE: ' Ja Jane!'
