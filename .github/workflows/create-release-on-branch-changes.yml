@@ -83,6 +83,7 @@ jobs:
           files: ${{ env.DIST_FILENAME }}
 
       - name: Write release information in artifact file
+        # TODO: Remember to change hardcoded download url.
         run: |
             printf '{
               "release_branch": "${{ env.RELEASE_BRANCH }}",
