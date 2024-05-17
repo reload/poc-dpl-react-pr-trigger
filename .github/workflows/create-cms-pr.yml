@@ -28,8 +28,7 @@ jobs:
         id: invoke_external_pr_workflow
         uses: fjogeleit/http-request-action@v1
         with:
-          # TODO: remove hardcoded org/repo
-          url: 'https://api.github.com/repos/reload/poc-dpl-cms-pr-trigger/dispatches'
+          url:  ${{ env.REQUEST_URL}}
           method: 'POST'
           customHeaders: |
             {
@@ -46,12 +45,11 @@ jobs:
               }
             }
         env:
-          REQUEST_URL: ${{ format('ttps://api.github.com/repos/{0}/dispatches', vars.REMOTE_REPO_GITHUB_HANDLE) }}
+          REQUEST_URL: ${{ format('https://api.github.com/repos/{0}/dispatches', vars.REMOTE_REPO_GITHUB_HANDLE) }}
         # Only invoke external PR workflow if the release branch is not develop or master
         if: ${{ !contains(fromJSON('["develop", "master"]'), env.RELEASE_BRANCH) }}
 
       - name: Adding summary
-        # TODO: remove hardcoded org/repo
         run: |
           echo "Requested external PR at: ${REMOTE_REPO_GITHUB_HANDLE}" >> $GITHUB_STEP_SUMMARY
           echo "Based on the [${{ env.RELEASE_BRANCH }}](${{ env.BRANCH_URL }}) branch" >> $GITHUB_STEP_SUMMARY
