@@ -27,7 +27,11 @@ jobs:
         with:
           url: 'https://api.github.com/repos/reload/poc-dpl-cms-pr-trigger/dispatches'
           method: 'POST'
-          customHeaders: '{"Accept": "application/vnd.github+json", "Authorization": "Bearer ${{ secrets.CMS_PR_CREATION_PAT }}" }'
+          customHeaders: |
+            {
+              "Accept": "application/vnd.github+json",
+              "Authorization": "Bearer ${{ secrets.CMS_PR_CREATION_PAT }}"
+            }
           data: |
             {
               "event_type": "create_pr",
