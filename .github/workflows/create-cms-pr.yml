@@ -56,3 +56,9 @@ jobs:
         if: ${{ steps.invoke_external_pr_workflow.outcome == 'success' }}
         env:
           BRANCH_URL: "${{ github.event.repository.html_url }}/tree/${{ env.RELEASE_BRANCH }}"
+
+      - name: Adding summary about skip if branch is develop or master
+        # TODO: remove hardcoded org/repo
+        run: |
+          echo "Skipped PR creation because the branch was not a feature branch... " >> $GITHUB_STEP_SUMMARY
+        if: ${{ contains(fromJSON('["develop", "master"]'), env.RELEASE_BRANCH) }}
