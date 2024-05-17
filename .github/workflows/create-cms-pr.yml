@@ -51,6 +51,7 @@ jobs:
       - name: Adding summary
         # TODO: remove hardcoded org/repo
         run: |
+          echo ${{ toJson(github)}}
           echo "Requested external PR at: reload/poc-dpl-cms-pr-trigger" >> $GITHUB_STEP_SUMMARY
           echo "Based on the [${{ env.RELEASE_BRANCH }} branch](/tree/${{ env.RELEASE_BRANCH }})" >> $GITHUB_STEP_SUMMARY
         if: ${{ steps.invoke_external_pr_workflow.outcome == 'success' }}
