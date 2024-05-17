@@ -19,7 +19,7 @@ jobs:
         # Using branch names as tags allows other projects to track unreleased
         # development.
         run: |
-         echo ${{ toJson(github.event) }}
+         echo ${{ toJson(github.event.repository) }}
 
           RELEASE_BRANCH=$(echo ${GITHUB_REF#refs/heads/})
           RELEASE_BRANCH_SLUGGED=$(echo $RELEASE_BRANCH | sed -E -e 's/[^[:alnum:]]+/-/g' -e 's/^-+|-+$//g' | tr '[:upper:]' '[:lower:]')
