@@ -23,8 +23,10 @@ jobs:
           echo "RELEASE_DOWNLOAD_URL=$RELEASE_DOWNLOAD_URL" >> $GITHUB_ENV
           echo "DEPENDENCY_PACKAGE=$DEPENDENCY_PACKAGE" >> $GITHUB_ENV
       - name: Invoke external PR workflow
+        id: invoke_external_pr_workflow
         uses: fjogeleit/http-request-action@v1
         with:
+          # TODO: remove hardcoded org/repo
           url: 'https://api.github.com/repos/reload/poc-dpl-cms-pr-trigger/dispatches'
           method: 'POST'
           customHeaders: |
@@ -41,3 +43,9 @@ jobs:
                 "dependency_package": "${{ env.DEPENDENCY_PACKAGE }}"
               }
             }
+      - name: Adding summary
+        # TODO: remove hardcoded org/repo
+        run: |
+          echo "Requested external PR at: reload/poc-dpl-cms-pr-trigger" >> $GITHUB_STEP_SUMMARY
+          echo "Based on the ${{ env.RELEASE_BRANCH }} branch" >> $GITHUB_STEP_SUMMARY
+        if: ${{ steps.invoke_external_pr_workflow.outcome == 'success' }}
