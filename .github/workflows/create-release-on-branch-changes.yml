@@ -83,13 +83,14 @@ jobs:
           files: ${{ env.DIST_FILENAME }}
 
       - name: Write release information in artifact file
-        # TODO: Remember to change hardcoded download url.
         run: |
             printf '{
               "release_branch": "${{ env.RELEASE_BRANCH }}",
               "dependency_package": "danskernesdigitalebibliotek/dpl-react",
-              "release_download_url": "https://github.com/reload/poc-dpl-react-pr-trigger/releases/download/${{ env.TAG_NAME }}/${{ env.DIST_FILENAME }}"
+              "release_download_url": "${{ env.DOWNLOAD_URL }}"
             }' >> release-info.json
+        env:
+          DOWNLOAD_URL: "${{ github.event.repository.html_url }}/releases/download/${{ env.TAG_NAME }}/${{ env.DIST_FILENAME }}"
 
       - uses: actions/upload-artifact@v3
         with:
