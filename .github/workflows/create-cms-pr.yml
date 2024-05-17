@@ -17,7 +17,6 @@ jobs:
 
       - name: Set env variables
         run: |
-          echo ${{ toJson(github.repository.html_url) }}
           RELEASE_BRANCH=$(jq -r '.release_branch' release-info.json)
           RELEASE_DOWNLOAD_URL=$(jq -r '.release_download_url' release-info.json)
           DEPENDENCY_PACKAGE=$(jq -r '.dependency_package' release-info.json)
@@ -53,5 +52,7 @@ jobs:
         # TODO: remove hardcoded org/repo
         run: |
           echo "Requested external PR at: reload/poc-dpl-cms-pr-trigger" >> $GITHUB_STEP_SUMMARY
-          echo "Based on the [${{ env.RELEASE_BRANCH }} branch](/tree/${{ env.RELEASE_BRANCH }})" >> $GITHUB_STEP_SUMMARY
+          echo "Based on the [${{ env.RELEASE_BRANCH }} branch](${{ env.BRANCH_URL }})" >> $GITHUB_STEP_SUMMARY
         if: ${{ steps.invoke_external_pr_workflow.outcome == 'success' }}
+        env:
+          BRANCH_URL: "${{ github.event.repository.html_url }}/tree/${{ env.RELEASE_BRANCH }}"
