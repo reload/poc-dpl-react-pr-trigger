@@ -17,7 +17,7 @@ jobs:
 
       - name: Set env variables
         run: |
-          echo ${{ toJson(github)}}
+          echo ${{ toJson(github.repository.html_url) }}
           RELEASE_BRANCH=$(jq -r '.release_branch' release-info.json)
           RELEASE_DOWNLOAD_URL=$(jq -r '.release_download_url' release-info.json)
           DEPENDENCY_PACKAGE=$(jq -r '.dependency_package' release-info.json)
