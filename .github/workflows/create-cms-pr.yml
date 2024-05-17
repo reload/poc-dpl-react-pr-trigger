@@ -62,5 +62,6 @@ jobs:
       - name: Adding summary about skip if branch is develop or master
         # TODO: remove hardcoded org/repo
         run: |
-          echo "Skipped PR creation because the branch was not a feature branch... " >> $GITHUB_STEP_SUMMARY
+          echo "Skipped PR creation because the branch was: $RELEASE_BRANCH " >> $GITHUB_STEP_SUMMARY
+          echo "whuch is not considered being a release branch... " >> $GITHUB_STEP_SUMMARY
         if: ${{ contains(fromJSON('["develop", "master"]'), env.RELEASE_BRANCH) }}
